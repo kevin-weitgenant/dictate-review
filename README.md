@@ -2,7 +2,7 @@
 
 Voice dictation for [Omarchy](https://omarchy.org) that shows **how sure the transcription is about each word**, so you only fix the words that need it.
 
-![Review popup](docs/popup.png)
+![Demo: glow while recording, then the review popup](docs/demo.gif)
 
 <span>🔴</span> confidence below 0.60 · <span>🟡</span> below 0.85 · the rest is plain. Hover a word to see its score.
 
@@ -12,6 +12,8 @@ Voice dictation for [Omarchy](https://omarchy.org) that shows **how sure the tra
 2. <kbd>Alt+Space</kbd> again. The audio goes to [Deepgram](https://deepgram.com) nova-3, which scores every word.
 3. The popup opens with the doubtful words highlighted. <kbd>Tab</kbd> jumps between them; type to fix.
 4. <kbd>Enter</kbd> pastes into the window where you started.
+
+![Review popup](docs/popup.png)
 
 ## Bar widget
 
