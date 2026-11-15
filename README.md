@@ -37,4 +37,6 @@ hypr/        window rules
 bar-plugin/  Omarchy bar widget (forked from Superwhisper's MIT panel)
 ```
 
+Explicação completa (pt-BR, com animação e quiz): [docs/explicado.pt-BR.html](https://htmlpreview.github.io/?https://github.com/kevin-weitgenant/dictate-review/blob/main/docs/explicado.pt-BR.html)
+
 MIT
