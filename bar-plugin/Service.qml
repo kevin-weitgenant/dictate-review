@@ -17,6 +17,8 @@ Item {
   property string language: "en"
   property string languageLabel: "English"
   property string model: "nova-3"
+  property string keybind: "CTRL + ALT + SPACE"
+  property bool capturing: false
   property var last: null
   property real monthMinutes: 0
   property real monthCostUsd: 0
@@ -35,6 +37,8 @@ Item {
     language = String(s.language || "en")
     languageLabel = String(s.languageLabel || "")
     model = String(s.model || "")
+    keybind = String(s.keybind || keybind)
+    capturing = s.capturing === true
     var l = s.last && s.last.created ? s.last : null
     if (!_same(last, l)) last = l
     monthMinutes = Number(s.monthMinutes || 0)
@@ -55,6 +59,8 @@ Item {
   function cancel() { run(["cancel"]) }
   function reopen() { run(["reopen"]) }
   function retry() { run(["retry"]) }
+  function setKeybind(chord) { run(["keybind", chord]) }
+  function captureKeybind() { run(["keybind", "--capture"]) }
   function openConfig() { Quickshell.execDetached(["omarchy-launch-editor", configPath]) }
 
   function copyLast() {

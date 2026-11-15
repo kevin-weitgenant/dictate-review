@@ -34,7 +34,7 @@ Panel {
 
   readonly property var rows: ["language", "dictate"]
     .concat(dr.last ? ["last", "retry"] : [])
-    .concat(["config"])
+    .concat(["config", "keybind"])
   readonly property string currentRow: cursorActive ? rows[Math.min(rowIndex, rows.length - 1)] : ""
 
   function moveCursor(dx, dy) {
@@ -55,6 +55,7 @@ Panel {
     else if (id === "last") { root.close(); dr.reopen() }
     else if (id === "retry") { root.close(); dr.retry() }
     else if (id === "config") { root.close(); dr.openConfig() }
+    else if (id === "keybind") { dr.captureKeybind() }
   }
 
   implicitWidth: button.implicitWidth
@@ -163,6 +164,7 @@ Panel {
         else if (key === "p") dr.setLanguage("pt")
         else if (key === "d") root.activate("dictate")
         else if (key === "r") root.activate("retry")
+        else if (key === "k") root.activate("keybind")
       }
 
       Column {
@@ -185,7 +187,7 @@ Panel {
             rowId: "dictate"
             glyph: dr.recording ? "󰓛" : root.micGlyph
             label: dr.recording ? "Stop and review" : "Start dictation"
-            hint: "ALT+SPACE"
+            hint: dr.keybind.replace(/\s*\+\s*/g, "+")
           }
         }
 
@@ -252,6 +254,14 @@ Panel {
             glyph: "󰒓"
             label: "Settings"
             caption: "config.json: thresholds, model, paste keys"
+          }
+
+          ActionRow {
+            rowId: "keybind"
+            glyph: "󰌓"
+            label: dr.capturing ? "Press the combo…" : "Keybind"
+            caption: dr.capturing ? "Escape cancels" : "Click, then press the keys you want (Hyprland syntax)"
+            hint: dr.capturing ? "…" : dr.keybind.replace(/\s*\+\s*/g, "+")
           }
         }
       }

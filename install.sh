@@ -18,4 +18,4 @@ echo dictate-review > "${XDG_CONFIG_HOME:-$HOME/.config}/omarchy/defaults/dictat
 omarchy plugin enable dictatereview.panel --before omarchy.tray >/dev/null || true
 grep -q DEEPGRAM_API_KEY ~/.config/env/secrets.sh 2>/dev/null || [ -n "$DEEPGRAM_API_KEY" ] \
   || echo "Add: export DEEPGRAM_API_KEY=... to ~/.config/env/secrets.sh"
-echo "Done. Alt+Space to dictate."
+echo 'Done. Ctrl+Alt+Space to dictate (default; change with: dictate-review keybind "CHORD")'

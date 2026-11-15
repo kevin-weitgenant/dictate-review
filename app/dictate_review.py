@@ -6,6 +6,7 @@ Commands:
   retry                            send the last recording to Deepgram again
   reopen                           show the last result again
   language [en|pt|toggle]          show or set the dictation language
+  keybind [CHORD]                 show or set the toggle keybind (Hyprland syntax, e.g. "CTRL + ALT + SPACE")
   status [--follow]                JSON for the bar widget
   transcribe FILE.wav              print words and confidences (testing)
 """
@@ -27,6 +28,7 @@ DEFAULTS = {
     "paste_chords": {},               # per window class override, e.g. {"foo": "ctrl+v"}
     "extra_keyterms": [],
     "max_seconds": 300,
+    "keybind": "CTRL + ALT + SPACE",  # toggle-dictation chord (Hyprland syntax); rebinds on reload
 }
 LANGS = {"en": ("en", "English"), "pt": ("pt-BR", "Português")}
 
@@ -282,6 +284,23 @@ def language(arg=None):
     print(c["language"])
 
 
+def keybind(arg=None):
+    c = conf()
+    if arg == "--capture":
+        os.makedirs(STATE, exist_ok=True)
+        open(P("capture.request"), "w").write(str(time.time()))
+        notify("Press the key combo for dictation… (Escape cancels)")
+        return
+    if arg:
+        c["keybind"] = arg
+        save_conf(c)
+        try:                                  # shortcuts.lua re-reads it and rebinds
+            subprocess.run(["hyprctl", "reload"], capture_output=True, timeout=5)
+        except Exception:
+            pass
+    print(c["keybind"])
+
+
 def last_edit():
     try:
         with open(P("edits.jsonl"), "rb") as f:
@@ -318,6 +337,7 @@ def status_obj():
         pass
     price = 0.0043 if c["language"] == "en" else 0.0052
     return {"phase": phase(), "language": c["language"], "languageLabel": LANGS[c["language"]][1], "model": c["model"],
+            "keybind": c["keybind"], "capturing": os.path.exists(P("capture.request")),
             "last": last, "monthMinutes": round(secs / 60, 1), "monthCostUsd": round(secs / 60 * price, 2)}
 
 
@@ -344,6 +364,7 @@ def main():
     elif cmd == "retry": retry()
     elif cmd == "reopen": open_popup()
     elif cmd == "language": language(a[1] if len(a) > 1 else None)
+    elif cmd == "keybind": keybind(a[1] if len(a) > 1 else None)
     elif cmd == "status": status("--follow" in a)
     elif cmd == "transcribe":
         r = transcribe(a[1])
