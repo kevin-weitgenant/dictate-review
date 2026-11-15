@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "dictatereview.panel",
+  "name": "Dictate Review",
+  "version": "0.1.0",
+  "author": "Kevin Weitgenant",
+  "license": "MIT",
+  "description": "Dictate Review status, EN/PT language switch, the last dictation with its flagged words, and this month's Deepgram usage in the Omarchy bar.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "Panel.qml"
+  },
+  "barWidget": {
+    "displayName": "Dictate Review",
+    "description": "Live dictation status. Left-click opens the panel, right-click switches EN/PT, middle-click starts or stops dictation.",
+    "category": "Status",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {
+      "showLanguage": true
+    },
+    "schema": [
+      {
+        "key": "showLanguage",
+        "type": "boolean",
+        "label": "Show language next to the icon",
+        "defaultValue": true
+      }
+    ]
+  }
+}

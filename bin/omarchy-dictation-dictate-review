@@ -1,0 +1,7 @@
+#!/bin/bash
+# omarchy:summary=Record dictation using Dictate Review
+# omarchy:args=<start|stop|toggle>
+case "${1:-}" in
+  start|stop|toggle) exec dictate-review "$1" ;;
+  *) echo "Usage: omarchy dictation dictate-review <start|stop|toggle>" >&2; exit 1 ;;
+esac
